@@ -1,0 +1,26 @@
+
+services:
+  hello-work:
+    image: node:18-alpine
+    container_name: hellowork
+    restart: unless-stopped
+    environment:
+      - POLE_EMPLOI_CLIENT_ID=$CLIENT
+      - POLE_EMPLOI_CLIENT_SECRET=$KEY
+    entrypoint: npm run dev
+    working_dir: /app
+    volumes:
+      - $PWD:/app
+  mongo:
+    image: mongo:3.4
+    container_name: mongo
+    restart: unless-stopped
+    volumes:
+      - ./data:/data/db
+  hello-work-prod:
+    image: cedlemo/hello-work:0.1.0
+    build:
+      context: ./
+    environment:
+      - POLE_EMPLOI_CLIENT_ID=$CLIENT
+      - POLE_EMPLOI_CLIENT_SECRET=$KEY
